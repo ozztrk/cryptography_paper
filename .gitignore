@@ -1,0 +1,6 @@
+# Ignore everything
+*
+
+# But not .tex files and .gitignore
+!*.tex
+!.gitignore
