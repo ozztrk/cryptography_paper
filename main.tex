@@ -1,5 +1,12 @@
 \documentclass{article}
 \usepackage{graphicx} % Required for inserting images
+\usepackage[utf8]{inputenc}
+\usepackage{amsthm}
+\usepackage{csquotes}
+\usepackage{times} % Required for setting the font to Times New Roman
+\usepackage{setspace} % Required for setting custom line spacing
+\usepackage{url}
+\setstretch{1.25}
 
 \title{Lightweight Crytolography Challenges and Approaches}
 \author{}
@@ -9,6 +16,13 @@
 
 \maketitle
 \input{introduction.tex}
+\input{auth_encrypt.tex}
 \input{conclusion.tex}
+\section*{test}
+This is some text that needs a citation
+hey \cite{GoogleTinkAEAD}
+
+\bibliographystyle{apalike} % Add this line at the end of your document 
+\bibliography{references} % Add this line at the end of your document
 
 \end{document}

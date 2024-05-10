@@ -1,0 +1,16 @@
+\section*{Authenticated Encryption with associated Data (AEAD)}
+% Questions:
+% what is S_r and S_c?
+% What is a Nonce And Tag?
+The Authenticated Encryption with Associated Data (AEAD) primitive is the most common primitive for data encryption and is suitable for most needs. \cite{GoogleTinkAEAD}
+\newline
+AEAD has the following properties: \newline
+\begin{itemize}
+    \item \textbf{Secrecy:} Nothing about the plaintext is known, except its length.
+    \item \textbf{Authenticity:} It is impossible to change the encrypted plaintext underlying the ciphertext without being detected.
+    \item \textbf{Symmetric:} Encrypting the plaintext and decrypting the ciphertext is done with the same key.
+    \item \textbf{Randomization:} Encryption is randomized. Two messages with the same plaintext yield different ciphertexts. Attackers cannot know which ciphertext corresponds to a given plaintext. If you want to avoid this, use Deterministic AEAD instead.
+\end{itemize}
+\cite{GoogleTinkAEAD}
+
+
