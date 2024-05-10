@@ -1,16 +1,31 @@
-\section*{Authenticated Encryption with associated Data (AEAD)}
+\section{Authenticated Encryption with associated Data (AEAD)}
 % Questions:
 % what is S_r and S_c?
 % What is a Nonce And Tag?
-The Authenticated Encryption with Associated Data (AEAD) primitive is the most common primitive for data encryption and is suitable for most needs. \cite{GoogleTinkAEAD}
+\subsection{Authenticated Encryption (AE)}
+After many years where traditional approaches using so-called "generic composition" were trying to solve privacy and authentication problems, two decades ago there have been new constructions which achieve both privacy and authenticity simultaneously, often much faster than any solutio which uses generic composition.
 \newline
-AEAD has the following properties: \newline
-\begin{itemize}
-    \item \textbf{Secrecy:} Nothing about the plaintext is known, except its length.
-    \item \textbf{Authenticity:} It is impossible to change the encrypted plaintext underlying the ciphertext without being detected.
-    \item \textbf{Symmetric:} Encrypting the plaintext and decrypting the ciphertext is done with the same key.
-    \item \textbf{Randomization:} Encryption is randomized. Two messages with the same plaintext yield different ciphertexts. Attackers cannot know which ciphertext corresponds to a given plaintext. If you want to avoid this, use Deterministic AEAD instead.
-\end{itemize}
-\cite{GoogleTinkAEAD}
+% ASCON AE uses the “symmetric-key model.”
+% This means that we assume our two communicating parties, traditionally called “Alice” and “Bob,” share
+% a copy of some bit-string K, called the “key.”
+\newline
+In many environments we do not only have to envrypt and authenticate the message or payload, but also wish to include auxiliary data (like the header of a network packet) which should be authenticated, but left unencrypted and authenticated. \cite{Black2005}
+% Umschreiben
+The reason being that routers must be able to read the headers of packets in order to know how to properly route them. This need spurred some designers of AE schemes to allow “associated data” to be included as input to their schemes. Such schemes have been termed AEAD schemes (Authenticated Encryption with Associated Data), a notion which was first formalized by Rogaway \cite{10.1145/586110.586125}.
+\newline
+AEAD is a cryptographic method that combines encryption and authentication in a single operation. It allows for secure encryption of data while also providing integrity protection. AEAD schemes take plaintext data, associated data (which is authenticated but not encrypted), and a secret key as input, and produce ciphertext along with authentication tags as output. The ciphertext ensures confidentiality, while the authentication tags ensure integrity and authenticity of both the ciphertext and associated data. AEAD schemes are commonly used to protect the confidentiality and integrity of data in various applications, including communication protocols, file systems, and storage systems . \cite{Black2005}
+
+
+% \subsection{Properties of AEAD}
+% The Authenticated Encryption with Associated Data (AEAD) primitive is the most common primitive for data encryption and is suitable for most needs. \cite{GoogleTinkAEAD}
+% \newline
+% AEAD has the following properties: \newline
+% \begin{itemize}
+%     \item \textbf{Secrecy:} Nothing about the plaintext is known, except its length.
+%     \item \textbf{Authenticity:} It is impossible to change the encrypted plaintext underlying the ciphertext without being detected.
+%     \item \textbf{Symmetric:} Encrypting the plaintext and decrypting the ciphertext is done with the same key.
+%     \item \textbf{Randomization:} Encryption is randomized. Two messages with the same plaintext yield different ciphertexts. Attackers cannot know which ciphertext corresponds to a given plaintext.
+% \end{itemize}
+% \cite{GoogleTinkAEAD}
 
 
