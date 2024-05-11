@@ -6,6 +6,7 @@
 \usepackage{times} % Required for setting the font to Times New Roman
 \usepackage{setspace} % Required for setting custom line spacing
 \usepackage{url}
+\usepackage{float}
 \setstretch{1.25}
 
 \title{Lightweight Crytolography Challenges and Approaches}
@@ -18,6 +19,15 @@
 \tableofcontents
 
 \input{introduction.tex}
+
+\section{Notation}
+\begin{figure}[H] 
+    \centering 
+    \includegraphics[width=1\textwidth]{figures/ascon-notation.png}
+    \caption{Ason's Notation Table \cite{Ascon-v1.2}}
+    \label{fig:ascon-notation} 
+  \end{figure}
+
 \input{auth_encrypt.tex}
 \input{conclusion.tex}
 
