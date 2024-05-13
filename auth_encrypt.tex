@@ -5,8 +5,7 @@
 After many years of relying on traditional methods for encryption and authentication through 'generic composition,' new constructions have emerged over the past two decades. They achieved both privacy and authenticity simultaneously and often more efficiently than solutions using generic composition.
 \newline
 In many environments we do not only have to encrypt and authenticate the message or payload, but also wish to include auxiliary data (like the header of a network packet) which should be authenticated, but left unencrypted. \cite[Chapter 1]{Black2005}
-% Umschreiben
-The reason being that routers must be able to read the headers of packets in order to know how to properly route them. This need spurred some designers of AE schemes to allow “associated data” to be included as input to their schemes. Such schemes have been termed AEAD schemes (Authenticated Encryption with Associated Data) which rely on symmetric key cryptography.\footnote[1]{\textbf{Symmetric key cryptography}, also called secret or single-key cryptography, uses the same key to both encrypt and decrypt information and is used primarily to ensure data confidentiality. In cases where the information is encrypted and decoded by the same person, there is no need to share the secret key. However, when these operations involve different people or equipment, it is necessary that the secret key be previously combined through a secure communication channel. Examples of cryptographic methods that use a symmetric key are: DES, AES, Blowfish, RC4, 3DES, and IDEA. \cite{Alencar2022Cryptography}}
+The purpose of not encrypting but authenticating the associated data, is for router needing to be able to read the headers of packets in order to know how to properly route them. This need spurred the progress of AE schemes to allow "associated data" to be included as input. Such schemes have been termed AEAD schemes (Authenticated Encryption with Associated Data) which rely on symmetric key cryptography.\footnote[1]{\textbf{Symmetric key cryptography}, also called secret or single-key cryptography, uses the same key to both encrypt and decrypt information and is used primarily to ensure data confidentiality. In cases where the information is encrypted and decoded by the same person, there is no need to share the secret key. However, when these operations involve different people or equipment, it is necessary that the secret key be previously combined through a secure communication channel. \cite{Alencar2022Cryptography}}\cite[Chapter 1]{Black2005}
 A notion which was first formalized by Rogaway \cite{10.1145/586110.586125}.
 
 \subsection{Ascon AEAD Scheme}
@@ -17,10 +16,7 @@ In this section, we dive into the Ascon-128 scheme, which, along with Ascon-128a
 The encryption procedure $E_{k,r,a,b}$ takes the following inputs:
 \begin{itemize}
     \item Secret key $K$ with $k$ bits.
-    % find Citation! and make footnote!
-    \item Nonce (public message number) $N$ with 128 bits. \footnote[2]{\textbf{A nonce} is a random or non-repeating value that is included in data
-    exchanged by a protocol, usually for the purpose of guaranteeing
-    liveness and thus detecting and protecting against replay attacks.\cite{rfc4949}} % paraphrase
+    \item Nonce (public message number) $N$ with 128 bits. \footnote[2]{\textbf{Nonce:} A random or non-repeating unique value that is included, usually for the purpose of protecting against replay attacks. \cite[Page 200]{rfc4949}}
     \item Associated data $A$ of arbitrary length. (f.e. the header of a networkpacket)
     \item Plaintext $P$ of arbitrary length. (the payload)
 \end{itemize}
@@ -30,10 +26,8 @@ It produces an output consisting of the authenticated ciphertext $C$ of exactly 
 E_{k,r,a,b}(K,N,A,P) = (C,T)
 \]
 Here, $A$ is not encrypted but authenticated. 
-The recommended parameterset for Ascon-128 is $E_{126,64,16,6}$ and for Ascon-128a $b$ is 8. \cite[Chapter 2.2]{Ascon-v1.2} \newline
-Ascon is natively deﬁned on 64-bit words using only the bitwise
-Boolean functions and, xor, not, and rot (bitwise rotation). This signiﬁcantly
-reduces the eﬀort of implementing the algorithm on new target platforms. \cite[Chapter 4.1]{Ascon-v1.2} % paraphrase this part too
+The recommended parameterset for Ascon-128 is $E_{128,64,16,6}$ and for Ascon-128a $b$ is 8. \cite[Chapter 2.2]{Ascon-v1.2} \newline
+To reduce the effort of implementing the algorithm on new target platforms, Ason is natively defined on 64-bit words using only bitwise operations and Boolean functions. \cite[Chapter 4.1]{Ascon-v1.2}
 
 \subsection{Decryption and Verification $D_{k,r,a,b}$}
 The decryption and verification procedure $D_{k,r,a,b}$ takes the following inputs:
@@ -59,25 +53,27 @@ Ascons approach for authenticated encrytion is based on duplex modes like Monkey
     \label{fig:aead-algorithm}
 \end{figure}
 \subsubsection{Initialization}
-In contrary to other sponge-based authenticated encryption schemes, Ascon uses stronger keyed initialization and keyed finalization phases. This makes sure that if an attacker manages to recover the internal state during data processing (f.e. with side-channel attacks), the attacker is not directly able to recover the secret key.\cite[Chapter 5.1]{Ascon-v1.2}
-"The 320-bit initial state of Ascon is formed by [concatenating] the secret key K of k bits and nonce N of 128 bits, as well as an IV specifying the algorithm (including the key size k, the rate r, the initialization and finalization round number a, and the intermediate round number b, each written as an 8-bit integer)", followed by padding of zeros for the required length. % maybe paraphrase
+\sloppy
+In contrary to other sponge-based authenticated encryption schemes, Ascon uses stronger keyed initialization and keyed finalization phases. This makes sure that if an attacker manages to recover the internal state during data processing (f.e. with side-channel attacks), the attacker is not directly able to recover the secret key. \cite[Chapter 5.1]{Ascon-v1.2}
+"The 320-bit initial state of Ascon is formed by [concatenating] the secret key K of k bits and nonce N of 128 bits, as well as an IV specifying the algorithm (including the key size k, the rate r, the initialization and finalization round number a, and the intermediate round number b, each written as an 8-bit integer)", followed by padding of zeros for the required length.
 $$S \leftarrow k || r || a || b || 0^{160-k} || K || N $$
 In the Initialization $a$ rounds of the permutation $p$ is applied to the initial state. After that, the resulting state is XORed with a modified version of the secret key $K$ which is prepended with a series of $320-k$ zeros to pad it to the size of 320 bits. \cite{Ascon-v1.2}
 $$S \leftarrow p^a(S) \oplus (0^{320-k} || K)$$
-This step is needed to... 
+% This step is needed to... % finish this
 \subsubsection{Processing Associated Data}
 If there is associated data, it will first be preprocessed for absorbtion into blocks of $r$ bits which will be appended by a single $1$ and the smallest number of zeros to obtain a multiple of $r$ and then split again in $s$ blocks of $r$ bits. If there is no associated data, no padding is apllied and $s=0$.
+\sloppy
 The associated data $A$ is then absorbed into the state.
-$$ S \leftarrow p^b((S_r \oplus A_i) || S_c),\ \ 1 \leq i \leq s$$
-After all associated data is absorbed, a domain separation constant is added to differentiate the processing of associated data from the encryption of the payload. 
-\cite[Chapter 2.4.2]{Ascon-v1.2} \newline
-%paraphrase
-The addition of $0^{319} \Vert 1$ after the last processed associated data block and the ﬁrst plaintext block acts as a domain separation to prevent attacks that change the role of plaintext and associated data blocks. If no associated data and only an incomplete plaintext block is present, the two initialization and ﬁnalization calls to pa are suﬃcient and no additional intermediate round transformation pb is needed. To prevent that key additions between the two applications of pa cancel each other out in this case, they are added to diﬀerent parts of the capacity part Sc of the state. \cite[Chapter 5.1.1]{Ascon-v1.2}
+\[
+S \leftarrow p^b((S_r \oplus A_i) || S_c),\ \ 1 \leq i \leq s
+\]
+After all associated data is absorbed, a domain separation constant is added to differentiate the processing of associated data from the encryption of the payload. \cite[Chapter 2.4.2]{Ascon-v1.2}
 $$S \leftarrow S \oplus (0^{319} || 1)$$
 
 \subsubsection{Processing Plaintext/Ciphertext}
 As for the payload it is also processed into blocks the same way. 
-$$P_1, \dots , P_t \leftarrow \ r-bit blocks of P || 1 || 0^{r-1-(|P| mod\ r)}$$
+$$P_1, \dots , P_t \leftarrow \text{ r-bit blocks of } P || 1 || 0^{r-1-(|P| mod\ r)}$$
+The addition of $0^{319} \Vert 1$ domain seperation is to prevent attack that change the role of plaintext and associated data blocks. In case of an imcomplete plaintext block with no associated data, the two initialization and finalization calls are sufficient without an intermediate round transformation $p^b$. This prevents that key additions between the two applications cancel each other out. In this case they are added to different parts of the capacity port $S_c$ os the state. \cite[Chapter 5.1.1]{Ascon-v1.2} \newline
 For encryption each padded plaintext block $P_i$ is XORed to the first $r$ bits $S_r$ of the state $S$ and for each block except the last one is it is transformed by the permutation $p^b$% why???
 $$C_i \leftarrow S_r \oplus P_i$$
 $$
