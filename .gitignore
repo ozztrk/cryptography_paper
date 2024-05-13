@@ -4,5 +4,6 @@
 # But not .tex files and .gitignore
 !*.tex
 !.gitignore
-!references.bib
-!media/
+#!references.bib
+#!media/
+#!*.png
