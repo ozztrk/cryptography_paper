@@ -1,14 +1,38 @@
 \documentclass{article}
 \usepackage{graphicx} % Required for inserting images
+\usepackage[utf8]{inputenc}
+\usepackage{amsthm}
+\usepackage{csquotes}
+\usepackage{times} % Required for setting the font to Times New Roman
+\usepackage{setspace} % Required for setting custom line spacing
+\usepackage{url}
+\usepackage{float}
+\usepackage{amssymb}
+\setstretch{1.25}
 
 \title{Lightweight Crytolography Challenges and Approaches}
-\author{}
-\date{April 2024}
+\author{AI Gang}
+\date{May 2024}
 
 \begin{document}
 
 \maketitle
+\tableofcontents
+
 \input{introduction.tex}
+
+\section{Notation}
+\begin{figure}[H] 
+    \centering 
+    \includegraphics[width=1\textwidth]{figures/ascon-notation.png}
+    \caption{Ason's Notation Table \cite{Ascon-v1.2}}
+    \label{fig:ascon-notation} 
+  \end{figure}
+
+\input{auth_encrypt.tex}
 \input{conclusion.tex}
+
+\bibliographystyle{apalike} % Add this line at the end of your document 
+\bibliography{references} % Add this line at the end of your document
 
 \end{document}
