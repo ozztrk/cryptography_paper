@@ -43,13 +43,22 @@ D_{k,r,a,b}(K,N,A,C,T) \in \{P, \bot\}
 \subsection{Algorithm}
 \sloppy
 Ascons approach for authenticated encrytion is based on duplex modes\footnote[3]{\textbf{The duplex construction} uses a fixed permutation to process input and output simultaneously, inheriting security from the sponge construction and enabling efficient authenticated encryption with just one permutation call per message block, where input blocks encode data and keys, and output blocks provide encryption and authentication. \cite{10.1007/978-3-642-28496-0_19}} like MonkeyDuplex, but contrary to other sponge-based authenticated encryption schemes, Ascon uses stronger keyed initialization and keyed finalization phases. This makes sure that if an attacker manages to recover the internal state during data processing (f.e. with side-channel attacks), the attacker is not directly able to recover the secret key. \cite[Chapter 5.1]{Ascon-v1.2}
-The encryption and decryption operations are depicted in Figure 2. \cite{Ascon-v1.2}
+The encryption and decryption operations are depicted in Figure 2 and the procedures are specified in Figure 3. \cite{Ascon-v1.2}
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{figures/aead-algorithm.png}
     \caption{Ascon's mode of operation \cite{Ascon-v1.2}}
     \label{fig:aead-algorithm}
 \end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{figures/alg.png}
+    \caption{Authenticated encryption and decryption procedures \cite{Ascon-v1.2}}
+    \label{fig:procedure}
+\end{figure}
+
+In authenticated encryption, the initial steps of the encryption and decryption processes are the same; the differences lie in how the plaintext is handled and how the process is finalized. During encryption, the plaintext is encrypted to generate ciphertext, and a tag is also produced to ensure the integrity and authenticity of the data. In decryption, the ciphertext is decrypted to retrieve the original data, which is only returned if the tag is successfully authenticated, confirming that the data has not been tampered with.
 
 \subsubsection{Initialization}
 "The 320-bit initial state of Ascon is formed by [concatenating] the secret key K of k bits and nonce N of 128 bits, as well as an IV specifying the algorithm (including the key size k, the rate r, the initialization and finalization round number a, and the intermediate round number b, each written as an 8-bit integer)", followed by padding of zeros for the required length.
