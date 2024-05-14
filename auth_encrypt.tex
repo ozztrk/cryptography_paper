@@ -45,7 +45,9 @@ D_{k,r,a,b}(K,N,A,C,T) \in \{P, \bot\}
 \cite{Ascon-v1.2}
 
 \subsection{Algorithm} % TODO: Find duplex mode citation
-Ascons approach for authenticated encrytion is based on duplex modes like MonkeyDuplex \footnote[3]{Find References for Duplex Mode and stuff}, but with stronger keyed initialization and keyed finalization function. The encryption and decryption operations are depicted in Figure 2. \cite{Ascon-v1.2}
+\sloppy
+Ascons approach for authenticated encrytion is based on duplex modes\footnote[3]{\textbf{The duplex construction} uses a fixed permutation to process input and output simultaneously, inheriting security from the sponge construction and enabling efficient authenticated encryption with just one permutation call per message block, where input blocks encode data and keys, and output blocks provide encryption and authentication. \cite{10.1007/978-3-642-28496-0_19}} like MonkeyDuplex, but contrary to other sponge-based authenticated encryption schemes, Ascon uses stronger keyed initialization and keyed finalization phases. This makes sure that if an attacker manages to recover the internal state during data processing (f.e. with side-channel attacks), the attacker is not directly able to recover the secret key. \cite[Chapter 5.1]{Ascon-v1.2}
+The encryption and decryption operations are depicted in Figure 2. \cite{Ascon-v1.2}
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{figures/aead-algorithm.png}
@@ -53,8 +55,7 @@ Ascons approach for authenticated encrytion is based on duplex modes like Monkey
     \label{fig:aead-algorithm}
 \end{figure}
 \subsubsection{Initialization}
-\sloppy
-In contrary to other sponge-based authenticated encryption schemes, Ascon uses stronger keyed initialization and keyed finalization phases. This makes sure that if an attacker manages to recover the internal state during data processing (f.e. with side-channel attacks), the attacker is not directly able to recover the secret key. \cite[Chapter 5.1]{Ascon-v1.2}
+
 "The 320-bit initial state of Ascon is formed by [concatenating] the secret key K of k bits and nonce N of 128 bits, as well as an IV specifying the algorithm (including the key size k, the rate r, the initialization and finalization round number a, and the intermediate round number b, each written as an 8-bit integer)", followed by padding of zeros for the required length.
 $$S \leftarrow k || r || a || b || 0^{160-k} || K || N $$
 In the Initialization $a$ rounds of the permutation $p$ is applied to the initial state. After that, the resulting state is XORed with a modified version of the secret key $K$ which is prepended with a series of $320-k$ zeros to pad it to the size of 320 bits. \cite{Ascon-v1.2}
