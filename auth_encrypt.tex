@@ -1,7 +1,4 @@
 \section{Authenticated Encryption with Associated Data}
-% Questions:
-% what is S_r and S_c?
-% What is a Nonce And Tag?
 After many years of relying on traditional methods for encryption and authentication through 'generic composition,' new constructions have emerged over the past two decades. They achieved both privacy and authenticity simultaneously and often more efficiently than solutions using generic composition.
 \newline
 In many environments we do not only have to encrypt and authenticate the message or payload, but also wish to include auxiliary data (like the header of a network packet) which should be authenticated, but left unencrypted. \cite[Chapter 1]{Black2005}
@@ -21,7 +18,6 @@ The encryption procedure $E_{k,r,a,b}$ takes the following inputs:
     \item Plaintext $P$ of arbitrary length. (the payload)
 \end{itemize}
 It produces an output consisting of the authenticated ciphertext $C$ of exactly the same length as the plaintext $P$ plus an authentication tag $T$ of size 128 bits, which authenticates both the associated data and the encrypted message:
-
 \[
 E_{k,r,a,b}(K,N,A,P) = (C,T)
 \]
@@ -44,7 +40,7 @@ D_{k,r,a,b}(K,N,A,C,T) \in \{P, \bot\}
 \]
 \cite{Ascon-v1.2}
 
-\subsection{Algorithm} % TODO: Find duplex mode citation
+\subsection{Algorithm}
 \sloppy
 Ascons approach for authenticated encrytion is based on duplex modes\footnote[3]{\textbf{The duplex construction} uses a fixed permutation to process input and output simultaneously, inheriting security from the sponge construction and enabling efficient authenticated encryption with just one permutation call per message block, where input blocks encode data and keys, and output blocks provide encryption and authentication. \cite{10.1007/978-3-642-28496-0_19}} like MonkeyDuplex, but contrary to other sponge-based authenticated encryption schemes, Ascon uses stronger keyed initialization and keyed finalization phases. This makes sure that if an attacker manages to recover the internal state during data processing (f.e. with side-channel attacks), the attacker is not directly able to recover the secret key. \cite[Chapter 5.1]{Ascon-v1.2}
 The encryption and decryption operations are depicted in Figure 2. \cite{Ascon-v1.2}
@@ -54,13 +50,13 @@ The encryption and decryption operations are depicted in Figure 2. \cite{Ascon-v
     \caption{Ascon's mode of operation \cite{Ascon-v1.2}}
     \label{fig:aead-algorithm}
 \end{figure}
-\subsubsection{Initialization}
 
+\subsubsection{Initialization}
 "The 320-bit initial state of Ascon is formed by [concatenating] the secret key K of k bits and nonce N of 128 bits, as well as an IV specifying the algorithm (including the key size k, the rate r, the initialization and finalization round number a, and the intermediate round number b, each written as an 8-bit integer)", followed by padding of zeros for the required length.
 $$S \leftarrow k || r || a || b || 0^{160-k} || K || N $$
 In the Initialization $a$ rounds of the permutation $p$ is applied to the initial state. After that, the resulting state is XORed with a modified version of the secret key $K$ which is prepended with a series of $320-k$ zeros to pad it to the size of 320 bits. \cite{Ascon-v1.2}
 $$S \leftarrow p^a(S) \oplus (0^{320-k} || K)$$
-% This step is needed to... % finish this
+
 \subsubsection{Processing Associated Data}
 If there is associated data, it will first be preprocessed for absorbtion into blocks of $r$ bits which will be appended by a single $1$ and the smallest number of zeros to obtain a multiple of $r$ and then split again in $s$ blocks of $r$ bits. If there is no associated data, no padding is apllied and $s=0$.
 \sloppy
@@ -93,12 +89,10 @@ For the remaining truncated ciphertextblock $\tilde C_t\ with\ 0 \leq l \le r$ b
 $$\tilde{P}_t \leftarrow \lfloor S_r \rfloor_\ell \oplus \tilde{C}_t$$
 $$S \leftarrow (S_r \oplus (\tilde P_t || 1 || 0^{r-1-l})) || S_c$$
 \cite{Ascon-v1.2}
+
 \subsubsection{Finalization}
-The Finalization step, is genereting the tag which is important for \dots
+The Finalization step, is genereting the tag which is important for authentication and integrity checking.
 The secret Key $K$ is first XORed to the internal state which then is transformed by the permutation $p^a$ using $a$. The tag $T$ consists of the last 128 bits of the state XORed with the last 128 bits of the key $K$: %why last 128 bits isnt the key exactly that long?
 $$S \leftarrow p^a(S \oplus (0^r || K || 0^{c-k}))$$
 $$ T \leftarrow \lceil S  \rceil^{128} \oplus \lceil K \rceil^{128}$$
 The encryption procedure is returning the tag $T$ together with the ciphertext $C_1||...||\tilde C_t$ and the decription procedure is just returning the plaintext (payload) if the calculated tag value matches the received tag value $T$. \cite{Ascon-v1.2}
-
-\subsection{Principles Behind Ascon's Cryptographic Techniques}
-\dots
