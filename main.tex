@@ -1,5 +1,24 @@
-\documentclass{article}
-\usepackage{graphicx} % Required for inserting images
+\documentclass[11pt,a4paper]{article}
+\usepackage{environ}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{adjustbox}
+\usepackage{amsmath,amssymb}
+\usepackage{float}
+
+\usetikzlibrary{calc,cipher,sponge}
+\makeatletter
+\newsavebox{\measure@tikzpicture}
+\NewEnviron{scaletikzpicturetowidth}[1]{%
+  \def\tikz@width{#1}%
+  \def\tikzscale{1}\begin{lrbox}{\measure@tikzpicture}%
+  \BODY
+  \end{lrbox}%
+  \pgfmathparse{#1/\wd\measure@tikzpicture}%
+  \edef\tikzscale{\pgfmathresult}%
+  \BODY
+}
+\makeatother
 
 \title{Lightweight Crytolography Challenges and Approaches}
 \author{}
@@ -8,9 +27,8 @@
 \begin{document}
 
 \maketitle
-\section{Brainstorming} % All together at the beginning
-\section{Abstract} % All together at the end
-\section{Introduction} % All together at the end
-
+\input{hashing.tex}
+\bibliographystyle{plain}
+\bibliography{hash}
 
 \end{document}
