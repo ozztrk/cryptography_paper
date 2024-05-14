@@ -65,7 +65,9 @@ blahblahblah
 
 \section{Lightweight Cryptography}
 % Define what lightweight cryptography is and its relevance in the field of cryptography.
-The term lightweight cryptography refers to cryptographic algorithms that are designed to be secure even when operating in resource-restricted environments. These environments typically have limitations in terms of power, processing capabilities, memory, and even area/space. Lightweight cryptography aims to provide efficient and streamlined algorithms that can operate effectively in such constrained settings. It is important to note that lightweight cryptography is not a separate branch of cryptography but rather a subset of cryptographic techniques that are tailored to specific requirements.
+The term lightweight cryptography refers to cryptographic algorithms that are designed to be secure even when operating in resource-restricted environments. These environments typically have limitations in terms of power, processing capabilities, memory, and even area/space. Lightweight cryptography aims to provide efficient and streamlined algorithms that can operate effectively in such constrained settings.
+
+
 
 \subsection{The Need for LWC}   % 1
 % - √Discuss LWCs necessity in computing environments with limited resources like IoT devices. - chauhan2022analysis, √dutta2019lightweight, √mckay2016report
@@ -112,13 +114,7 @@ Further, the metrics used to define the requirements for the process of selectin
 
 \begin{itemize}
     \setlength{\itemsep}{-5pt}
-    \item \textbf{Security}: The security of a cipher can be described as its resistance against multiple types of attacks. The security requirements include the following:
-        \begin{itemize}
-            \item The key size is at least 128 bits.
-            \item The limits on the input sizes are at least $2^{50} - 1$ bytes.
-            \item Any nonce-respecting attack on the AEAD with a 128-bit key requires at least 2112 time complexity on a classical computer in the single-key setting.
-            \item Any attack on the hash function variants requires at least 2112 time complexity on a classical computer (if applicable).
-        \end{itemize}
+    \item \textbf{Security}: The security of a cipher refers to its ability to resist various types of attacks, including Side Channel Attacks, which will be discussed later in this work. Furthermore, a minimum key size of at least 128 bits is necessary.
     \item \textbf{Energy consumption}: Many IoT devices run on batteries, so it is important to minimize power consumption to ensure they can complete their tasks.
     \item \textbf{Latency}: Latency is the time it takes between starting the encryption process and producing the ciphertext. Minimizing latency is crucial for fast-running systems like interconnected cars.
     \item \textbf{Throughput}: Throughput (Kbps) can be thought of as the performance that describes the frequency at which new outputs are generated, which should be in a moderate scale for these devices.
@@ -136,9 +132,11 @@ Further, the metrics used to define the requirements for the process of selectin
 
 To better understand the different needs and define the expectations of lightweight cryptography, NIST conducted a questionnaire among groups with an interest in the application of LWC. Based on the responses received, NIST created profiles that represent the requirements of these algorithms, which are influenced by the hardware and application areas where these algorithms are needed. The results of this questionnaire led to the creation of two profiles: Profile 1, which focuses on AEAD (Authenticated Encryption with Associated Data) and hashing for constrained software and hardware environments, and Profile 2, which focuses on AEAD for constrained hardware environments Figure \ref{fig:profiles}. These profiles serve as guidelines for the development and evaluation of lightweight cryptographic algorithms \cite{mckay2016report}.
 
-\subsection{Security Issues Addressed by Lightweight Cryptography}   % 2
+
+
+\subsection{Security Issues in Lightweight Cryptography}   % 2
 % -  specific security challenges that lightweight cryptography aims to solve, such as power constraints, processing capabilities, and memory limitations. - √dhanda2020lightweight, √ekwueme2024lightweight, √pammu2016interceptive
-% - explain how traditional cryptographic techniques are unsuitable for such environments and highlight the differences. - Ldhanda2020lightweight: p.6
+% - explain how traditional cryptographic techniques are unsuitable for such environments and highlight the differences. - dhanda2020lightweight: p.6
 As mentioned above, IoT devices are openly deployed and process and transmit sensitive and important data, making them targets of high interest for various attacks. Some of these attacks include denial of service (DoS) attacks, where the goal is to shut down the targeted system, such as a server, by overwhelming it with a high volume of data. In addition, IoT devices with weak built-in security and low computing power, such as CCTV cameras and baby monitoring devices, can be injected with malware and used to execute distributed denial of service (DDoS) attacks on servers \cite{mckay2016report} \cite{salim2020distributed}. These attacks can have severe consequences, especially in critical applications like e-Health, where a service outage could be life-threatening, or in smart cities, where an attack could disrupt the functioning of an entire city \cite{dhanda2020lightweight}.
 
 Crucial attacks on IoT devices include:
@@ -148,7 +146,7 @@ Crucial attacks on IoT devices include:
     \item Table lookup attack: This attack involves pre-computing the ciphertexts for all possible keys of a given length. It poses a risk for devices that use predictable or not complex enough keys.
     \item Differential attacks: These attacks are successful when changes in plaintext result in predictable changes in ciphertext \cite{ekwueme2024lightweight}.
     \item One quite interesting attack is the Algebraic Fault Attack (AFA), in this case attackers induce faults into the encryption process and use algebraic techniques to analyze these faults and ultimately recover the key. Firstly these faults are induced during the encryption process by manipulating physical conditions like voltage, temperature, or clock frequency of the device. Secondly the corrupted outputs are collected. Those outputs are influenced by the specific induced faults and differ from the expected results. Thirdly a set of algebraic equations are formulated based on the differences between the expected outputs and the faulty outputs. Those equations represent the relationship between the cryptographic key (or other secret data), the input, the faulty output, and the nature of the fault. The next step is to solve these algebraic equations for the unknowns, which typically include the secret cryptographic keys. The process of solving can be computationally intensive and involve advanced algebraic computations and special software tools. Lastly if the equations are solved, sensitive information and the key can be extracted and used to decrypt other messages and data that have been secured with the extracted key. Since lightweight block ciphers have simpler algebraic structures than ciphers, the induced faults have a bigger impact on them and the equations can be solved easier, thus this attack can be a significant security risk. Some alarming results are for example that if the attacker has knowledge over 24 key bits and alters two bits in the 13-th round, DES can be broken with a single fault injection in 0.01 hour resulting in 10x the speed of a brute force attack \cite{zhang2016framework}.
-    \item A case particularly relevant in IoT applications is the Side Channel Attack (SCA). SCAs do not exploit the algorithm itself but the physical leakages from a cryptographic device during its normal operation. These leakages can be power consumption, electromagnetic emissions, timing information, etc. An experiment on how this is done can be seen in Figure \ref{fig:em_measurment}. Here the electro magnetic (EM) signal of two Arduino microcontrollers, which are implementing AES-128 algorithm is measured \cite{pammu2016interceptive}.
+    \item One case particularly relevant in IoT applications is the Side Channel Attack (SCA). SCAs do not exploit the algorithm itself but the physical leakages from a cryptographic device during its normal operation. These leakages can be power consumption, electromagnetic emissions, timing information, etc. An experiment on how this is done can be seen in Figure \ref{fig:em_measurment}, where the electromagnetic (EM) signal of two Arduino microcontrollers implementing the AES-128 algorithm is measured \cite{pammu2016interceptive}.
     
         \begin{figure}[h]
             \centering
@@ -157,22 +155,62 @@ Crucial attacks on IoT devices include:
             \label{fig:em_measurment}
         \end{figure}
 
-    Since these devices have limited computing power, the operations they perform, such as multiplications and additions, can be analyzed. In contrast, PCs with high computational capabilities are not as easily analyzed for patterns.
+    Since these devices have limited computing power and a small GE, the operations they perform, such as multiplications and additions, can be analyzed. In contrast, PCs with high computational capabilities are not as easily analyzed for patterns.
     \end{itemize}
 
 
-% test
+
 \subsection{Mechanisms and Functionality}   % 3
-% - describe the general mechanisms employed in lightweight cryptography, emphasizing streamlined algorithms and efficient implementations. - khudoykulov2022comparison, chauhan2022analysis, dhanda2020lightweight
-% - Discuss common models and methods used, highlighting both advantages and disadvantages. dhanda2020lightweight, mckay2016report
+% - √describe the general mechanisms employed in lightweight cryptography, emphasizing streamlined algorithms and efficient implementations. - khudoykulov2022comparison, chauhan2022analysis, dhanda2020lightweight
+% - √Discuss common models and methods used, highlighting both advantages and disadvantages. dhanda2020lightweight, mckay2016report
+Cryptography is generally divided into symmetric cryptography and asymmetric cryptography. In symmetric cryptography, the sender and the receiver share the same key. It is considered a fast and secure way of encryption. The main problem is exchanging the key with the communication partner. Furthermore, if the key is revealed, the encryption is compromised. In asymmetric encryption, each partner has one private key and one public key. The private key is known only to the owner, while the public key is revealed to the public. The private key is used to decrypt text that has been encrypted with the public key. This way, each partner can use the public key of the other to encrypt text that is meant for the other, and their own private key to decrypt text that is meant for themselves \cite{ekwueme2024lightweight}. Although asymmetric cryptography is secure and solves the problem of exchanging the key, because of the nature of having different keys for encrypting and decrypting the same text, the keys have to be much longer than in symmetric cryptography. Thus, it is more demanding in terms of hardware resources. Since symmetric cryptography has lower demands in terms of storage, processing power, complexity, and bandwidth, it is considered the preferred method in IoT \cite{khudoykulov2022comparison} \cite{ekwueme2024lightweight}. It is important to note that lightweight cryptography is not a separate branch of cryptography, but rather a subset of cryptographic techniques that are tailored to specific requirements.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=11cm, height=4cm]{media/primitives_for_IoT.png}
+    \caption{Lightweight cryptographic primitives for IoT}
+    \label{fig:primitives_for_IoT}
+\end{figure}
+
+
+\subsubsection{Classification and Design of Lightweight Primitives}
+Similar to conventional cryptography, lightweight cryptography includes four types of primitives: Lightweight Block Ciphers (LWBC), Lightweight Stream Ciphers (LWSC), Lightweight Hash Functions (LWHF), and Elliptic Curve Cryptography (ECC) (Figure \ref{fig:primitives_for_IoT}) \cite{dhanda2020lightweight}. While stream ciphers have their uses in cryptography for IoT applications, the adaptability of block ciphers is preferred. The similarity between encryption and decryption operations in block ciphers allows for reduced resource consumption and simpler hardware and software implementations.
+
+\textbf{Basic Block Cipher Design}
+\begin{itemize}
+    \item \textbf{Substitution-box (S-box)}: The S-box performs a substitution operation by taking a small block of input bits (often 4 bits) and transforming them into an output block of bits of the same size. This process, also known as confusion, introduces complexity and unpredictability between input and output bits.
+    \item \textbf{Permutation-box (P-box)}: The P-box scatters the output bits of the S-box across the plaintext, ensuring that each change to an input bit influences many output bits. This step, known as diffusion, together with the S-box, makes it harder for an attacker with access to the plaintext and ciphertext to extract the key.
+    \item \textbf{Rounds}: In block ciphers, the encryption and decryption processes are divided into several phases called "rounds."
+    \item \textbf{Substitution-Permutation Network (SPN)}: This is a structure used in each round of encryption, where S-boxes and P-boxes are applied systematically. AES is probably the most popular SPN-based algorithm, with others including PRESENT and GIFT.
+    \item \textbf{The Feistel Network (FN)}: Another structure used in block ciphers is the Feistel Network, where the input block is divided into two equal parts, and during each round, only one half of the block is processed (using substitution and permutation), and then the output is combined with the other half. Some algorithms based on FN include TEA and Camellia \cite{ekwueme2024lightweight} \cite{chauhan2022analysis}.
+\end{itemize}
 
 
 \subsection{Unaddressed Needs and Introduction to Ascon}   % 4
-% - Nist requirements for LWC algorithms, mckay2016report, turan2021status
+% - √Nist requirements for LWC algorithms, mckay2016report, turan2021status
 % - / the limitations or needs that were unaddressed by previous lightweight cryptographic approaches. dhanda2020lightweight
-% - Transition into how Ascon addresses these gaps, setting the stage for the detailed exploration of Ascon in the subsequent sections. - turan2021status
+% - √Transition into how Ascon addresses these gaps, setting the stage for the detailed exploration of Ascon in the subsequent sections. - turan2021status
+It is only in the last 10 years that LWC has gained attention by the community thus many aspects where unaddressed in the past. Some of the research gaps for LWC primitives can be seen on Figure \ref{fig:Research gaps for LWC primitives} \cite{dhanda2020lightweight}. 
 
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=12cm, height=7.5cm]{media/Research_gaps.png}
+    \caption{Research gaps for LWC primitives}
+    \label{fig:Previews research gaps for LWC primitives}
+\end{figure}
+
+NIST sets rules for Lightweight Cryptography (LWC) to improve performance and security by making specific design decisions, some of them are:
+
+\begin{itemize}
+    \item Smaller block sizes: This is done to save memory. This could make the algorithms susceptible to plaintext or key recovery attacks.
+    \item Smaller key sizes: in the past many algorithms used keys less than 96bits NIST required at least 112bits.
+    \item Simpler rounds: Uses basic components to save space. For example, a 4-bit S-box in PRESENT uses only 28 GEs compared to 395 GEs for the AES S-box. Simpler designs may require more rounds to be secure.
+    \item Simpler key schedules: Reduces memory and power needs but may increase vulnerability to certain types of attacks. Secure key functions can help prevent these.
+    \item Minimal implementations: Only includes essential functions, which saves space and power. Some devices might only need to encrypt or decrypt, not both.
+\end{itemize}
+
+Following the evaluation of the finalists using the specified criteria, NIST has chosen the ASCON family for standardization. This group includes AEAD and hash functions, as well as extra XOFs. The design of ASCON, which is based on permutations, allows it to meet a broad range of application requirements at a low additional cost for implementing new functionalities. A detailed examination of ASCON will be the content of the following chapters.
 
 \bibliographystyle{IEEEtran}
 \bibliography{references}
