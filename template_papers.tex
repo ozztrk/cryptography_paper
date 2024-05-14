@@ -190,8 +190,7 @@ Similar to conventional cryptography, lightweight cryptography includes four typ
 % - √Nist requirements for LWC algorithms, mckay2016report, turan2021status
 % - / the limitations or needs that were unaddressed by previous lightweight cryptographic approaches. dhanda2020lightweight
 % - √Transition into how Ascon addresses these gaps, setting the stage for the detailed exploration of Ascon in the subsequent sections. - turan2021status
-It is only in the last 10 years that LWC has gained attention by the community thus many aspects where unaddressed in the past. Some of the research gaps for LWC primitives can be seen on Figure \ref{fig:Research gaps for LWC primitives} \cite{dhanda2020lightweight}. 
-
+It is only in the last 10 years that LWC has gained attention by the community thus many aspects where unaddressed in the past. Some of the research gaps for LWC primitives can be seen on Figure \ref{fig:Previews research gaps for LWC primitives} \cite{dhanda2020lightweight}. 
 
 \begin{figure}[h]
     \centering
@@ -207,10 +206,10 @@ NIST sets rules for Lightweight Cryptography (LWC) to improve performance and se
     \item Smaller key sizes: in the past many algorithms used keys less than 96bits NIST required at least 112bits.
     \item Simpler rounds: Uses basic components to save space. For example, a 4-bit S-box in PRESENT uses only 28 GEs compared to 395 GEs for the AES S-box. Simpler designs may require more rounds to be secure.
     \item Simpler key schedules: Reduces memory and power needs but may increase vulnerability to certain types of attacks. Secure key functions can help prevent these.
-    \item Minimal implementations: Only includes essential functions, which saves space and power. Some devices might only need to encrypt or decrypt, not both.
+    \item Minimal implementations: Only includes essential functions, which saves space and power. Some devices might only need to encrypt or decrypt, not both \cite{mckay2016report}.
 \end{itemize}
 
-Following the evaluation of the finalists using the specified criteria, NIST has chosen the ASCON family for standardization. This group includes AEAD and hash functions, as well as extra XOFs. The design of ASCON, which is based on permutations, allows it to meet a broad range of application requirements at a low additional cost for implementing new functionalities. A detailed examination of ASCON will be the content of the following chapters.
+Following the evaluation of the finalists using the specified criteria, NIST has chosen the ASCON family for standardization. This group includes AEAD and hash functions, as well as extra XOFs. The design of ASCON, which is based on permutations, allows it to meet a broad range of application requirements at a low additional cost for implementing new functionalities. A detailed examination of ASCON will be the content of the following chapters \cite{turan2021status}.
 
 \bibliographystyle{IEEEtran}
 \bibliography{references}
