@@ -10,3 +10,6 @@
 !*.bib
 !*.png
 !*.py
+!images/
+!fem/
+!figures/
