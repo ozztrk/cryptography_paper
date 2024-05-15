@@ -1,7 +1,9 @@
 \documentclass{article}
+\usepackage{cite} % Add this line to enable citations
 \usepackage{graphicx} % Required for inserting images
 \usepackage[utf8]{inputenc}
 \usepackage{amsthm}
+\usepackage{amsmath}
 \usepackage{csquotes}
 \usepackage{times} % Required for setting the font to Times New Roman
 \usepackage{setspace} % Required for setting custom line spacing
@@ -9,21 +11,56 @@
 \usepackage{float}
 \usepackage{amssymb}
 \usepackage{amsmath} % enables text input in equations
+\usepackage{float, eurosym, amssymb, color}
+\usepackage{booktabs, cellspace}
+\usepackage[american]{babel} 
+\usepackage{adjustbox}
+\usepackage{environ}
+\usepackage{tikz}
+\usepackage[margin=2cm]{geometry}
+\usepackage{parskip}
+\usepackage{MnSymbol}
+\newcommand{\mX}{\mathcal{X}}
 
+\usetikzlibrary{calc,cipher,sponge}
+\makeatletter
+\newsavebox{\measure@tikzpicture}
+\NewEnviron{scaletikzpicturetowidth}[1]{%
+  \def\tikz@width{#1}%
+  \def\tikzscale{1}\begin{lrbox}{\measure@tikzpicture}%
+  \BODY
+  \end{lrbox}%
+  \pgfmathparse{#1/\wd\measure@tikzpicture}%
+  \edef\tikzscale{\pgfmathresult}%
+  \BODY
+}
+\makeatother
 \setstretch{1.25}
 
-\title{Lightweight Crytolography Challenges and Approaches}
-\author{AI Gang}
+
 \date{May 2024}
 
+\title{Lightweight Crytolography Challenges and Approaches}
+\author{
+  Aitaza, A. \\
+  \texttt{aka2973@thi.de}
+  \and
+  Öztürk O.\\
+  \texttt{ozo8678@thi.de}   
+  \and
+  Topouzakis, A. \\
+  \texttt{ant8751@thi.de}
+  \and
+  Maugueret, A. D.\\
+  \texttt{adm5462@thi.de}
+  }
+  
 \begin{document}
-
 \maketitle
 \tableofcontents
 
-\input{introduction.tex}
+\section*{Notation}
 
-\section{Notation}
 \begin{figure}[H] 
     \centering 
     \includegraphics[width=1\textwidth]{figures/ascon-notation.png}
@@ -31,7 +68,11 @@
     \label{fig:ascon-notation} 
   \end{figure}
 
+\input{introduction.tex}
+\input{template_paper.tex}
 \input{auth_encrypt.tex}
+\input{hashing.tex}
+\input{permutation.tex}
 \input{conclusion.tex}
 
 \bibliographystyle{apalike} % Add this line at the end of your document 
