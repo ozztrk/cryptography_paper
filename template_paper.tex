@@ -1,13 +1,9 @@
 \section{Lightweight Cryptography}
-% Define what lightweight cryptography is and its relevance in the field of cryptography.
 The term lightweight cryptography refers to cryptographic algorithms that are designed to be secure even when operating in resource-restricted environments. These environments typically have limitations in terms of power, processing capabilities, memory, and even area/space. Lightweight cryptography aims to provide efficient and streamlined algorithms that can operate effectively in such constrained settings.
 
 
 
-\subsection{The Need for LWC}   % 1
-% - √Discuss LWCs necessity in computing environments with limited resources like IoT devices. - chauhan2022analysis, √dutta2019lightweight, √mckay2016report
-% - general terminologies and essential concepts relevant to lightweight cryptography. - ekwueme2024lightweight, √mckay2016report, √turan2021status 
-% - √ Intruduce the NIST competition  More info about the competition √mckay2016report, √turan2021status
+\subsection{The Need for LWC}
 Traditional cryptographic algorithms are designed to be secure, but they are often not suitable for environments with limited resources. In recent years, there has been an increasing need for lightweight cryptographic algorithms. This need arises from the growing number of devices connected to the internet. These devices are often small and have limited capabilities.
 \newline
 The Internet of Things (IoT) is a network built by interconnected devices (Figure \ref{fig:IoT}). These devices gather data from their environment, such as a toaster with a temperature sensor or an actuator in a nuclear power plant, and exchange it with other devices in the network \cite{chauhan2022analysis}.
@@ -69,9 +65,7 @@ To better understand the different needs and define the expectations of lightwei
 
 
 
-\subsection{Security Issues in Lightweight Cryptography}   % 2
-% -  specific security challenges that lightweight cryptography aims to solve, such as power constraints, processing capabilities, and memory limitations. - √dhanda2020lightweight, √ekwueme2024lightweight, √pammu2016interceptive
-% - explain how traditional cryptographic techniques are unsuitable for such environments and highlight the differences. - dhanda2020lightweight: p.6
+\subsection{Security Issues in Lightweight Cryptography}
 As mentioned above, IoT devices are openly deployed and process and transmit sensitive and important data, making them targets of high interest for various attacks. Some of these attacks include denial of service (DoS) attacks, where the goal is to shut down the targeted system, such as a server, by overwhelming it with a high volume of data. In addition, IoT devices with weak built-in security and low computing power, such as CCTV cameras and baby monitoring devices, can be injected with malware and used to execute distributed denial of service (DDoS) attacks on servers \cite{mckay2016report} \cite{salim2020distributed}. These attacks can have severe consequences, especially in critical applications like e-Health, where a service outage could be life-threatening, or in smart cities, where an attack could disrupt the functioning of an entire city \cite{dhanda2020lightweight}.
 
 Crucial attacks on IoT devices include:
@@ -95,9 +89,7 @@ Crucial attacks on IoT devices include:
 
 
 
-\subsection{Mechanisms and Functionality}   % 3
-% - √describe the general mechanisms employed in lightweight cryptography, emphasizing streamlined algorithms and efficient implementations. - khudoykulov2022comparison, chauhan2022analysis, dhanda2020lightweight
-% - √Discuss common models and methods used, highlighting both advantages and disadvantages. dhanda2020lightweight, mckay2016report
+\subsection{Mechanisms and Functionality}
 Cryptography is generally divided into symmetric cryptography and asymmetric cryptography. In symmetric cryptography, the sender and the receiver share the same key. It is considered a fast and secure way of encryption. The main problem is exchanging the key with the communication partner. Furthermore, if the key is revealed, the encryption is compromised. In asymmetric encryption, each partner has one private key and one public key. The private key is known only to the owner, while the public key is revealed to the public. The private key is used to decrypt text that has been encrypted with the public key. This way, each partner can use the public key of the other to encrypt text that is meant for the other, and their own private key to decrypt text that is meant for themselves \cite{ekwueme2024lightweight}. Although asymmetric cryptography is secure and solves the problem of exchanging the key, because of the nature of having different keys for encrypting and decrypting the same text, the keys have to be much longer than in symmetric cryptography. Thus, it is more demanding in terms of hardware resources. Since symmetric cryptography has lower demands in terms of storage, processing power, complexity, and bandwidth, it is considered the preferred method in IoT \cite{khudoykulov2022comparison} \cite{ekwueme2024lightweight}. It is important to note that lightweight cryptography is not a separate branch of cryptography, but rather a subset of cryptographic techniques that are tailored to specific requirements.
 
 \begin{figure}[h]
@@ -121,10 +113,7 @@ Similar to conventional cryptography, lightweight cryptography includes four typ
 \end{itemize}
 
 
-\subsection{Unaddressed Needs and Introduction to Ascon}   % 4
-% - √Nist requirements for LWC algorithms, mckay2016report, turan2021status
-% - / the limitations or needs that were unaddressed by previous lightweight cryptographic approaches. dhanda2020lightweight
-% - √Transition into how Ascon addresses these gaps, setting the stage for the detailed exploration of Ascon in the subsequent sections. - turan2021status
+\subsection{Unaddressed Needs and Introduction to Ascon}
 It is only in the last 10 years that LWC has gained attention by the community thus many aspects where unaddressed in the past. Some of the research gaps for LWC primitives can be seen on Figure \ref{fig:Previews research gaps for LWC primitives} \cite{dhanda2020lightweight}. 
 
 \begin{figure}[h]
