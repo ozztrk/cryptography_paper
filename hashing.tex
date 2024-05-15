@@ -4,7 +4,7 @@
 Hash functions are a cryptographic primitive with many useful applications in computer science. Hashes are used to verify data integrity, and play an important role in entity authenticity and digital signature schemes. They can be used for cryptographic key derivation, key and pseudorandom number generation; moreover, blockchain principle is built entirely on hashing. Aforementioned applications are also prevalent in the context of lightweight cryptography \cite{lightHashTrends}. The following chapter is going to introduce a reader to hash functions in general and present the hashing design of the ASCON family.
 
 % First, we will look at the theoretical requirements for the hash functions, and then proceed with the practical
-\subsection[hash_def_reqs]{Hash function and its requirements}
+\subsection{Hash function and its requirements}
 Simply put, a cryptographic hash function $ \mX: \{0, 1\}^* \rightarrow \{0,1\}^{l} $ takes an input bitstring $x$ of arbitrary length and produces a short bitstring output $y$ of fixed length $l$, also called a digest, or a hash value. Such mapping allows us to identify any $x$ with some shorter $y$. 
 
 \subsubsection{Collision resistance}
@@ -24,7 +24,7 @@ If we would like to use hash functions as a reliable means to verify an integrit
 \subsubsection{Ideal hash function}
 An ideal hash function is said to be following a \textit{random oracle model}, in which a random oracle samples and outputs hash values from a random uniform distribution each time a new input is fed. If a random oracle again receives an input that was given in the past, it yields the same hash as one he returned the first time for this input. The design of the hash functions is tested against the ideal random oracle model by theoretical proofs and is aimed to be sufficiently close to, or \textit{indifferentiable} from, it.
 
-\subsection[hash_constrs]{Hash constructions}
+\subsection{Hash constructions}
 The first widely used idea to bring an infinite domain to a finite range of hash values is to use a \textit{compression function} $f$. Message $M$ is first padded and split into chunks of equal length $M=x_1||x_2||x_3||\ldots||x_n$. A compression function then takes in a first input chunk with the initial state $S$. The previous output of the function and the next chunk of a message are then fed to the same function again, sequentially, until the message is fully expended. The end return is a hash value. This approach is called a \textit{Merkle-Damgård transform}. Its working is depicted schematically on the Figure \ref{fig:merkle}. SHA-1 and SHA-2 standard hashing algorithms were designed as Merkle-Damgård hash functions, the SHA-1 being now deprecated for discovered security flaws. In 2017, \cite{firstcollision} found the first ever collision for SHA-1.
 
 \begin{figure}[h]

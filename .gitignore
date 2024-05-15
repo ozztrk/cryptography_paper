@@ -10,3 +10,7 @@
 !*.bib
 !*.png
 !*.py
+!/images/
+!/images/*
+!/media/
+!/media/*

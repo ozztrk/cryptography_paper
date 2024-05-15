@@ -24,7 +24,7 @@ An interesting application of permutation in cryptography is the \textbf{sponge 
   \item $P$ is a function that pads the input message to a multiple of $r$
 \end{itemize}
 
-The sponge function is performed iteratively in two phases: the \textbf{absorbing phase} and the \textbf{squeezing phase}. The padded input $M$ which is cut into $r$ bit blocks. In the absorbing phase, chucks of the input message are mixed at the beginning of the buffer using XOR operations. This can be seen in Figure \ref{fig:sponge} with the operation $r \oplus P_i$. At each step, this new buffer is again passed through $f$ causing a small amount of data to be "absorbed" into the semi-randomised buffer. \cite{keccak_team, sponge_function_2023,DBLP:journals/joc/DobraunigEMS21} \par 
+The sponge function is performed iteratively in two phases: the \textbf{absorbing phase} and the \textbf{squeezing phase}. The padded input $M$ which is cut into $r$ bit blocks. In the absorbing phase, chunks of the input message are mixed at the beginning of the buffer using XOR operations. This can be seen in Figure \ref{fig:sponge} with the operation $r \oplus P_i$. At each step, this new buffer is again passed through $f$ causing a small amount of data to be "absorbed" into the semi-randomised buffer. \cite{keccak_team, sponge_function_2023,DBLP:journals/joc/DobraunigEMS21} \par 
 
 In the squeezing phase, the buffer is read out in chunks of the desired output length. This is done by applying $f$ to the buffer and outputting the first $r$ bits of the result. This process is repeated until the output $Z$ with the desired length $\ell$ is reached. \cite{keccak_team,sponge_function_2023,DBLP:journals/joc/DobraunigEMS21} \par 
 
@@ -132,4 +132,4 @@ The linear diffusion layer mixes the bits within each word of the state. It is d
 
 \cite{DBLP:journals/joc/DobraunigEMS21}
 
-\printbibliography
+

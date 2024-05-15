@@ -1,5 +1,4 @@
 \documentclass{article}
-\usepackage{cite} % Add this line to enable citations
 \usepackage{graphicx} % Required for inserting images
 \usepackage[utf8]{inputenc}
 \usepackage{amsthm}
@@ -13,7 +12,6 @@
 \usepackage{amsmath} % enables text input in equations
 \usepackage{float, eurosym, amssymb, color}
 \usepackage{booktabs, cellspace}
-\usepackage[american]{babel} 
 \usepackage{adjustbox}
 \usepackage{environ}
 \usepackage{tikz}
@@ -21,14 +19,16 @@
 \usepackage{parskip}
 \usepackage{MnSymbol}
 \usepackage{parskip}
-\usepackage{MnSymbol}
 \usepackage[
-    %backend=biber, 
+    backend=biber, 
     natbib=true,
     style=numeric,
     sorting=none
 ]{biblatex} 
 \usepackage{hyperref} 
+
+\addbibresource{references.bib}
+
 \newcommand{\mX}{\mathcal{X}}
 
 \usetikzlibrary{calc,cipher,sponge}
@@ -66,9 +66,11 @@
   
 \begin{document}
 \maketitle
+\newpage
 \tableofcontents
+\newpage
 
-\section*{Notation}
+\section{Notation}
 
 \begin{figure}[H] 
     \centering 
@@ -84,7 +86,6 @@
 \input{permutation.tex}
 \input{conclusion.tex}
 
-\bibliographystyle{apalike} % Add this line at the end of your document 
-\bibliography{references} % Add this line at the end of your document
+\printbibliography
 
 \end{document}
