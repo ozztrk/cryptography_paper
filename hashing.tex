@@ -8,7 +8,7 @@ Hash functions are a cryptographic primitive with many useful applications in co
 Simply put, a cryptographic hash function $ \mX: \{0, 1\}^* \rightarrow \{0,1\}^{l} $ takes an input bitstring $x$ of arbitrary length and produces a short bitstring output $y$ of fixed length $l$, also called a digest, or a hash value. Such mapping allows us to identify any $x$ with some shorter $y$. 
 
 \subsubsection{Collision resistance}
-Theoretically, because the domain of possible inputs is larger than of the range of the hash function, and since the mapping is surjective, there is an infinite amount of possible messages, such that their hash values are identical. Since $ |\{0,1\}^*| $ is infinite and $ |\{0,1\}^l| = 2^l $, by the pigeonhole principle, there exist at least two bitstrings $ x_1, x_2 \in \{0,1\}^* $, with $ x_1 \neq x_2 $, such that $ \mX(x_1) = \mX(x_2) $. This equality of digests of two or more input values is called a collision.
+Theoretically, because the domain of possible inputs is larger than of the range of the hash function, and since the mapping is surjective, there is an infinite amount of possible messages, such that their hash values are identical. Since $ |\{0,1\}^*| $ is infinite and $ |\{0,1\}^l| = 2^l $, by the pigeonhole principle, there exist at least two bitstrings $ x_1, x_2 \in \{0,1\}^* $, with $ x_1 \neq x_2 $, such that $ \mX(x_1) = \mX(x_2) $. This equality of digests of two or more input values is called a collision \cite{knospeCourseCryptography2019}.
 
 Practically, it is very hard to find such collisions. The ``hardness'' is described by the theoretical amount of needed prompts to a hash function to acquire at least one of such events, and the requirement for a low probability of collision is called a \textit{collision resistance}. By simply trying out 
 \[
@@ -19,13 +19,13 @@ and comparing each next hash value with previous ones, eventually, an attacker i
 where $d$ is the number of possible outcomes, and $p$ is a desired probability. This yields us a $\sqrt{2^l} = 2^{l/2}$. For example, if a hash function produces a 256-bit digest, one has to probe $2^{128}$ number of inputs to merely have a 50\% chance of getting a pair of matching hashes, which is sufficiently infeasible under our current compute capabilities; moreover, one has to have a tremendous storage of at least $2^{133}$ bytes ($10^{25}$ petabytes) for such an endeavor.
 
 \subsubsection{(Second-) preimage resistance}
-If we would like to use hash functions as a reliable means to verify an integrity or authenticity of important information, two more requirements arise. One would not like, if an attacker, knowing the hash value $y$, easily guessed or picked a suitable input $\hat{x}$, such that $\mX(\hat{x}) = y$, because he could perfectly disguise the matching $\hat{x}$ as a valid piece of data, or worse, find out the true input. The property that allows to withstand such attacks is called \textit{one-wayness} or \textit{preimage resistance}, the $x$ being a preimage of $y$. The second undesirable situation is when an adversary can, for a given input $x$ that he knows, find such $x^\prime$ that $\mX(x^\prime) = \mX(x)$ and $x^\prime \neq x$. This means that we would like a hash function to ensure that it is hard to find not just any collision, but a specific one for a given input. This property is called a \textit{second-preimage resistance}. Both requirements yield a need to test $2^{l}$ number of inputs to break them, if a hash function is ideally constructed.
+If we would like to use hash functions as a reliable means to verify an integrity or authenticity of important information, two more requirements arise. One would not like, if an attacker, knowing the hash value $y$, easily guessed or picked a suitable input $\hat{x}$, such that $\mX(\hat{x}) = y$, because he could perfectly disguise the matching $\hat{x}$ as a valid piece of data, or worse, find out the true input. The property that allows to withstand such attacks is called \textit{one-wayness} or \textit{preimage resistance}, the $x$ being a preimage of $y$. The second undesirable situation is when an adversary can, for a given input $x$ that he knows, find such $x^\prime$ that $\mX(x^\prime) = \mX(x)$ and $x^\prime \neq x$. This means that we would like a hash function to ensure that it is hard to find not just any collision, but a specific one for a given input. This property is called a \textit{second-preimage resistance}. Both requirements yield a need to test $2^{l}$ number of inputs to break them, if a hash function is ideally constructed \cite{cryptmadesimple}.
 
 \subsubsection{Ideal hash function}
 An ideal hash function is said to be following a \textit{random oracle model}, in which a random oracle samples and outputs hash values from a random uniform distribution each time a new input is fed. If a random oracle again receives an input that was given in the past, it yields the same hash as one he returned the first time for this input. The design of the hash functions is tested against the ideal random oracle model by theoretical proofs and is aimed to be sufficiently close to, or \textit{indifferentiable} from, it.
 
 \subsection{Hash constructions}
-The first widely used idea to bring an infinite domain to a finite range of hash values is to use a \textit{compression function} $f$. Message $M$ is first padded and split into chunks of equal length $M=x_1||x_2||x_3||\ldots||x_n$. A compression function then takes in a first input chunk with the initial state $S$. The previous output of the function and the next chunk of a message are then fed to the same function again, sequentially, until the message is fully expended. The end return is a hash value. This approach is called a \textit{Merkle-Damgård transform}. Its working is depicted schematically on the Figure \ref{fig:merkle}. SHA-1 and SHA-2 standard hashing algorithms were designed as Merkle-Damgård hash functions, the SHA-1 being now deprecated for discovered security flaws. In 2017, \cite{firstcollision} found the first ever collision for SHA-1.
+The first widely used idea to bring an infinite domain to a finite range of hash values is to use a \textit{compression function} $f$. Message $M$ is first padded and split into chunks of equal length $M=x_1||x_2||x_3||\ldots||x_n$. A compression function then takes in a first input chunk with the initial state $S$. The previous output of the function and the next chunk of a message are then fed to the same function again, sequentially, until the message is fully expended. The end return is a hash value. This approach is called a \textit{Merkle-Damgård transform} \cite{coronMerkleDamgardRevisitedHow2005}. Its working is depicted schematically on the Figure \ref{fig:merkle}. SHA-1 and SHA-2 standard hashing algorithms were designed as Merkle-Damgård hash functions, the SHA-1 being now deprecated for discovered security flaws. In 2017, \cite{firstcollision} found the first ever collision for SHA-1.
 
 \begin{figure}[H]
     \centering
@@ -113,9 +113,9 @@ The first widely used idea to bring an infinite domain to a finite range of hash
     \caption{The Merkle-Damgård construction.}
     \label{fig:merkle}
 \end{figure}
-In a Merkle-Damgård hash function, the \textit{internal state} is fully exposed, reflecting the hash of the input. If attacker knows the hash, he knows the final state of the compression function and can ``resume'' the calculation further with an appended message, producing a valid hash. This is known as a \textit{length extension attack} on hash.
+In a Merkle-Damgård hash function, the \textit{internal state} is fully exposed, reflecting the hash of the input. If attacker knows the hash, he knows the final state of the compression function and can ``resume'' the calculation further with an appended message, producing a valid hash. This is known as a \textit{length extension attack} on hash \cite{knospeCourseCryptography2019}.
 
-A second architecture eliminates the length extension attack by never revealing the full internal state. This also conveniently allows for yielding an arbitrary length hash value. Such useful features are achieved by introducing a much larger internal state, allowing chunks of a message to be ``absorbed'' into the state, having a permutation function, and releasing a hash from the state also only chunk by chunk. This configuration is called a \textit{sponge construction}, and ASCON hashing adopts this particular mode of operation.
+A second architecture eliminates the length extension attack by never revealing the full internal state. This also conveniently allows for yielding an arbitrary length hash value. Such useful features are achieved by introducing a much larger internal state, allowing chunks of a message to be ``absorbed'' into the state, having a permutation function, and releasing a hash from the state also only chunk by chunk. This configuration is called a \textit{sponge construction} \cite{guido_b_d_michaël_p_2011}, and ASCON hashing adopts this particular mode of operation \cite{ascon_specification}.
 
 \begin{figure}[H]
     \centering
@@ -142,11 +142,11 @@ A second architecture eliminates the length extension attack by never revealing 
   \caption{The sponge construction of ASCON.}
 %   \label{fig:sponge}
 \end{figure}
-A sponge function is made of three components: a state memory $S$ containing $b$ bits, a permutation function $p: \left\{0,1\right\}^b \rightarrow \left\{0,1\right\}^b$ and a padding function $P$:
+A sponge function is made of three components: a state memory $S$ containing ${r+c}$ bits, a permutation function $p: \left\{0,1\right\}^{r+c} \rightarrow \left\{0,1\right\}^{r+c}$ and a padding function $P$:
 
 \begin{itemize}
   \item $S$ is divided into two parts: the $r$-bit \textit{rate} $S_r$ and the $c$-bit \textit{capacity}~$S_c$. The rate is the part of the state that is XORed with the input message, while the capacity is the part that stays hidden. Both rate and capacity are then being permuted together by the function $p$;
-  \item $p$ produces a pseudo random permutation of the $2^b$ possible states, details of which are shown in the next chapter about permutations;
+  \item $p$ produces a pseudo random permutation of the $2^{r+c}$ possible states, details of which are shown in the next chapter;
   \item $P$ is a function that pads the input message to a multiple of $r$.
 \end{itemize}
 
@@ -157,5 +157,27 @@ The sponge function is performed iteratively in two phases: the \textbf{absorbin
 
 
 In the squeezing phase, the finalizing permutation is applied to $S$ and the first leftmost $r$ bits of the state are retrieved. This process is repeated until the outputs $H_1||H_2||\ldots||H_t$ reach the desired length $\ell$.
+\[
+    H_i \leftarrow S_r
+\]
+\[
+    S \leftarrow p(S)
+\]
 
-The last $c$ bits are neither XORed nor directly output. 
+The last $c$ bits are neither XORed nor directly output, and thus the full state never leaves the hash function.
+
+\subsection{ASCON hashing}
+ASCON's hash has an internal state of 320 bits, with 64-bit rate and 256-bit capacity. Authors provide four configurations: \textsc{Ascon-Hash, Ascon-Hasha, Ascon-Xof}, and \textsc{Ascon-Xofa}. The \textit{initialization vector} IV for each configuration is set as follows:
+\[
+\text{IV}_{h,r,a,b} \leftarrow 0^8 \parallel r \parallel a \parallel a - b \parallel h =
+\begin{cases}
+    00||40||0c||00||00000100 & \text{for }\textsc{Ascon-Hash} \\
+    00||40||0c||04||00000100 & \text{for }\textsc{Ascon-Hasha} \\
+    00||40||0c||00||00000000 & \text{for }\textsc{Ascon-Xof} \\
+    00||40||0c||04||00000000 & \text{for }\textsc{Ascon-Xofa} \\
+\end{cases},
+\]
+where $r$ is a rate, $a$ and $b$ are rounds of permutations (discussed in the next chapter), and $h$ is the desired output length. With $h=0$, for \textsc{Ascon-Xof} and \textsc{Ascon-Xofa}, the output length is unlimited. Then, the initial state is:
+\[
+S \leftarrow \text{IV}_{h,r,a,b} \parallel 0^{256}
+\]
