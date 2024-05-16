@@ -2,14 +2,11 @@
 \usepackage{graphicx} % Required for inserting images
 \usepackage[utf8]{inputenc}
 \usepackage{amsthm}
-\usepackage{amsmath}
 \usepackage{csquotes}
 \usepackage{times} % Required for setting the font to Times New Roman
 \usepackage{setspace} % Required for setting custom line spacing
 \usepackage{url}
-\usepackage{float}
 \usepackage{amssymb}
-\usepackage{amsmath} % enables text input in equations
 \usepackage{float, eurosym, amssymb, color}
 \usepackage{booktabs, cellspace}
 \usepackage{adjustbox}
@@ -25,21 +22,9 @@
     style=numeric,
     sorting=none
 ]{biblatex} 
-\usepackage{hyperref} 
-
-%%%%%%%%%%%%% Page layout
-\topmargin-20mm
-\headheight10mm
-\headsep10mm
-\topskip0.1mm
-\hoffset-15mm
-\textwidth15.5cm
-\textheight22cm
-\parindent0em
-%\markleft{\authors}
-%\markright{\shorttitle} 
-\pagenumbering{arabic}
-%%%%%%%%%%%%%%%%%%
+\usepackage{hyperref}
+\usepackage[toc,page]{appendix}
+\usepackage{caption}
 
 \addbibresource{references.bib}
 
@@ -60,32 +45,56 @@
 \makeatother
 \setstretch{1.25}
 
-
-\date{May 2024}
-
-\title{Lightweight Cryptography: Challenges and Approaches}
-\author{
-  Aitaza, A. \\
-  \texttt{aka2973@thi.de}
-  \and
-  Öztürk O.\\
-  \texttt{ozo8678@thi.de}   
-  \and
-  Topouzakis, A. \\
-  \texttt{ant8751@thi.de}
-  \and
-  Maugueret, A. D.\\
-  \texttt{adm5462@thi.de}
-  }
   
 \begin{document}
-\maketitle
+
+\newgeometry{margin=1cm}
+\begin{titlepage}
+
+  \title{ \Huge Lightweight Cryptography: Challenges and Approaches}
+  \author{
+    Aitaza, A. \\
+    \texttt{aka2973@thi.de}
+    \and
+    Öztürk O.\\
+    \texttt{ozo8678@thi.de}   
+    \and
+    Topouzakis, A. \\
+    \texttt{ant8751@thi.de}
+    \and
+    Maugueret, A. D.\\
+    \texttt{adm5462@thi.de}
+    }
+  \clearpage\maketitle
+  \thispagestyle{empty}
+  \pagenumbering{gobble}
+
+\end{titlepage}
+
+\restoregeometry
 
 \newpage
 \tableofcontents
+\newpage
 \listoffigures
 \newpage
+\pagenumbering{arabic} 
 
+%%%%%%%%%%%%% Page layout
+\topmargin-20mm
+\headheight10mm
+\headsep10mm
+\topskip0.1mm
+\hoffset-15mm
+\textwidth15.5cm
+\textheight22cm
+\parindent0em
+%\markleft{\authors}
+%\markright{\shorttitle} 
+\pagenumbering{arabic}
+%%%%%%%%%%%%%%%%%%
+
+\thispagestyle{empty}
 \section{Notation}
 
 \begin{figure}[H] 
@@ -104,5 +113,8 @@
 
 \newpage
 \printbibliography
+\newpage
+
+\input{appendix.tex}
 
 \end{document}
