@@ -6,7 +6,7 @@ The purpose of not encrypting but authenticating the associated data, is for rou
 A notion which was first formalized by Rogaway \cite{10.1145/586110.586125}. \par
 
 \subsection{Ascon AEAD Scheme}
-In this section, we dive into the Ascon-128 scheme, which, along with Ascon-128a, has been designated as the “primary choice” for lightweight authenticated encryption in the final portfolio of the CAESAR competition. These schemes are notable for their robust security, with no known vulnerabilities. The most effective attacks target only the versions with reduced rounds—specifically, the initialization reduced to 7 out of 12 rounds—and these are still far from posing a practical threat. Notably, benchmarks have demonstrated that Ascon excels in efficiency, particularly for short messages, confirming its status as a state-of-the-art lightweight encryption method. \cite[Chapter 1]{Ascon-v1.2} \par
+In this section, we dive into the Ascon-128 scheme, which, along with Ascon-128a, has been designated as the “primary choice” for lightweight authenticated encryption in the final portfolio of the CAESAR competition. These schemes are notable for their robust security, with no known vulnerabilities. The most effective attacks target only the versions with reduced rounds—specifically, the initialization reduced to 7 out of 12 rounds—and these are still far from posing a practical threat. Notably, benchmarks have demonstrated that Ascon excels in efficiency, particularly for short messages, confirming its status as a state-of-the-art lightweight encryption method. \cite[Chapter 1]{DBLP:journals/joc/DobraunigEMS21} \par
 
 \subsection{Authenticated Encryption $E_{k,r,a,b}$}
 The encryption procedure $E_{k,r,a,b}$ takes the following inputs:
@@ -21,8 +21,8 @@ It produces an output consisting of the authenticated ciphertext $C$ of exactly 
 E_{k,r,a,b}(K,N,A,P) = (C,T)
 \]
 Here, $A$ is not encrypted but authenticated. 
-The recommended parameterset for Ascon-128 is $E_{128,64,16,6}$ and for Ascon-128a $b$ is 8. \cite[Chapter 2.2]{Ascon-v1.2} \newline
-To reduce the effort of implementing the algorithm on new target platforms, Ason is natively defined on 64-bit words using only bitwise operations and Boolean functions. \cite[Chapter 4.1]{Ascon-v1.2} \par
+The recommended parameterset for Ascon-128 is $E_{128,64,16,6}$ and for Ascon-128a $b$ is 8. \cite[Chapter 2.2]{DBLP:journals/joc/DobraunigEMS21} \newline
+To reduce the effort of implementing the algorithm on new target platforms, Ason is natively defined on 64-bit words using only bitwise operations and Boolean functions. \cite[Chapter 4.1]{DBLP:journals/joc/DobraunigEMS21} \par
 
 \subsection{Decryption and Verification $D_{k,r,a,b}$}
 The decryption and verification procedure $D_{k,r,a,b}$ takes the following inputs:
@@ -37,23 +37,23 @@ It outputs either the plaintext $P$ if the verification of the tag is correct, o
 \[
 D_{k,r,a,b}(K,N,A,C,T) \in \{P, \bot\}
 \]
-\cite{Ascon-v1.2}
+\cite{DBLP:journals/joc/DobraunigEMS21}
 
 \subsection{Algorithm}
 \sloppy
-Ascons approach for authenticated encrytion is based on duplex modes\footnote[3]{\textbf{The duplex construction} uses a fixed permutation to process input and output simultaneously, inheriting security from the sponge construction and enabling efficient authenticated encryption with just one permutation call per message block, where input blocks encode data and keys, and output blocks provide encryption and authentication. \cite{10.1007/978-3-642-28496-0_19}} like MonkeyDuplex, but contrary to other sponge-based authenticated encryption schemes, Ascon uses stronger keyed initialization and keyed finalization phases. This makes sure that if an attacker manages to recover the internal state during data processing (f.e. with side-channel attacks), the attacker is not directly able to recover the secret key. \cite[Chapter 5.1]{Ascon-v1.2}
-The encryption and decryption operations are depicted in Figure 2 and the procedures are specified in Figure 3. \cite{Ascon-v1.2}
+Ascons approach for authenticated encrytion is based on duplex modes\footnote[3]{\textbf{The duplex construction} uses a fixed permutation to process input and output simultaneously, inheriting security from the sponge construction and enabling efficient authenticated encryption with just one permutation call per message block, where input blocks encode data and keys, and output blocks provide encryption and authentication. \cite{10.1007/978-3-642-28496-0_19}} like MonkeyDuplex, but contrary to other sponge-based authenticated encryption schemes, Ascon uses stronger keyed initialization and keyed finalization phases. This makes sure that if an attacker manages to recover the internal state during data processing (f.e. with side-channel attacks), the attacker is not directly able to recover the secret key. \cite[Chapter 5.1]{DBLP:journals/joc/DobraunigEMS21}
+The encryption and decryption operations are depicted in Figure 2 and the procedures are specified in Figure 3. \cite{DBLP:journals/joc/DobraunigEMS21}
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{figures/aead-algorithm.png}
-    \caption{Ascon's mode of operation \cite{Ascon-v1.2}}
+    \caption{Ascon's mode of operation \cite{DBLP:journals/joc/DobraunigEMS21}}
     \label{fig:aead-algorithm}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{figures/alg.png}
-    \caption{Authenticated encryption and decryption procedures \cite{Ascon-v1.2}}
+    \caption{Authenticated encryption and decryption procedures \cite{DBLP:journals/joc/DobraunigEMS21}}
     \label{fig:procedure}
 \end{figure}
 
@@ -62,7 +62,7 @@ In authenticated encryption, the initial steps of the encryption and decryption 
 \subsubsection{Initialization}
 "The 320-bit initial state of Ascon is formed by [concatenating] the secret key K of k bits and nonce N of 128 bits, as well as an IV specifying the algorithm (including the key size k, the rate r, the initialization and finalization round number a, and the intermediate round number b, each written as an 8-bit integer)", followed by padding of zeros for the required length. \par
 $$S \leftarrow k || r || a || b || 0^{160-k} || K || N $$
-In the Initialization $a$ rounds of the permutation $p$ is applied to the initial state. After that, the resulting state is XORed with a modified version of the secret key $K$ which is prepended with a series of $320-k$ zeros to pad it to the size of 320 bits. \cite{Ascon-v1.2}
+In the Initialization $a$ rounds of the permutation $p$ is applied to the initial state. After that, the resulting state is XORed with a modified version of the secret key $K$ which is prepended with a series of $320-k$ zeros to pad it to the size of 320 bits. \cite{DBLP:journals/joc/DobraunigEMS21}
 $$S \leftarrow p^a(S) \oplus (0^{320-k} || K)$$
 
 \subsubsection{Processing Associated Data}
@@ -72,13 +72,13 @@ The associated data $A$ is then absorbed into the state.
 \[
 S \leftarrow p^b((S_r \oplus A_i) || S_c),\ \ 1 \leq i \leq s
 \]
-After all associated data is absorbed, a domain separation constant is added to differentiate the processing of associated data from the encryption of the payload. \cite[Chapter 2.4.2]{Ascon-v1.2}
+After all associated data is absorbed, a domain separation constant is added to differentiate the processing of associated data from the encryption of the payload. \cite[Chapter 2.4.2]{DBLP:journals/joc/DobraunigEMS21}
 $$S \leftarrow S \oplus (0^{319} || 1)$$
 
 \subsubsection{Processing Plaintext/Ciphertext}
 As for the payload it is also processed into blocks the same way. 
 $$P_1, \dots , P_t \leftarrow \text{ r-bit blocks of } P || 1 || 0^{r-1-(|P| mod\ r)}$$
-The addition of $0^{319} \Vert 1$ domain seperation is to prevent attack that change the role of plaintext and associated data blocks. In case of an imcomplete plaintext block with no associated data, the two initialization and finalization calls are sufficient without an intermediate round transformation $p^b$. This prevents that key additions between the two applications cancel each other out. In this case they are added to different parts of the capacity port $S_c$ os the state. \cite[Chapter 5.1.1]{Ascon-v1.2} \newline
+The addition of $0^{319} \Vert 1$ domain seperation is to prevent attack that change the role of plaintext and associated data blocks. In case of an imcomplete plaintext block with no associated data, the two initialization and finalization calls are sufficient without an intermediate round transformation $p^b$. This prevents that key additions between the two applications cancel each other out. In this case they are added to different parts of the capacity port $S_c$ os the state. \cite[Chapter 5.1.1]{DBLP:journals/joc/DobraunigEMS21} \newline
 For encryption each padded plaintext block $P_i$ is XORed to the first $r$ bits $S_r$ of the state $S$ and for each block except the last one is it is transformed by the permutation $p^b$% why???
 $$C_i \leftarrow S_r \oplus P_i$$
 $$
@@ -96,11 +96,11 @@ $$ S \leftarrow (S_r \oplus (\tilde P_t || 1 || 0^{r-1-l})) || S_c $$
 For the remaining truncated ciphertextblock $\tilde C_t\ with\ 0 \leq l \le r$ bits, the procedure differs:
 $$\tilde{P}_t \leftarrow \lfloor S_r \rfloor_\ell \oplus \tilde{C}_t$$
 $$S \leftarrow (S_r \oplus (\tilde P_t || 1 || 0^{r-1-l})) || S_c$$
-\cite{Ascon-v1.2}
+\cite{DBLP:journals/joc/DobraunigEMS21}
 
 \subsubsection{Finalization}
 The Finalization step, is genereting the tag which is important for authentication and integrity checking.
 The secret Key $K$ is first XORed to the internal state which then is transformed by the permutation $p^a$ using $a$. The tag $T$ consists of the last 128 bits of the state XORed with the last 128 bits of the key $K$: %why last 128 bits isnt the key exactly that long?
 $$S \leftarrow p^a(S \oplus (0^r || K || 0^{c-k}))$$
 $$ T \leftarrow \lceil S  \rceil^{128} \oplus \lceil K \rceil^{128}$$
-The encryption procedure is returning the tag $T$ together with the ciphertext $C_1||...||\tilde C_t$ and the decription procedure is just returning the plaintext (payload) if the calculated tag value matches the received tag value $T$. \cite{Ascon-v1.2}
+The encryption procedure is returning the tag $T$ together with the ciphertext $C_1||...||\tilde C_t$ and the decription procedure is just returning the plaintext (payload) if the calculated tag value matches the received tag value $T$. \cite{DBLP:journals/joc/DobraunigEMS21}
