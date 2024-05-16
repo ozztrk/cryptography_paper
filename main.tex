@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclass[a4paper]{article}
 \usepackage{graphicx} % Required for inserting images
 \usepackage[utf8]{inputenc}
 \usepackage{amsthm}
@@ -15,7 +15,7 @@
 \usepackage{adjustbox}
 \usepackage{environ}
 \usepackage{tikz}
-\usepackage[margin=2cm]{geometry}
+\usepackage{geometry}
 \usepackage{parskip}
 \usepackage{MnSymbol}
 \usepackage{parskip}
@@ -26,6 +26,20 @@
     sorting=none
 ]{biblatex} 
 \usepackage{hyperref} 
+
+%%%%%%%%%%%%% Page layout
+\topmargin-20mm
+\headheight10mm
+\headsep10mm
+\topskip0.1mm
+\hoffset-15mm
+\textwidth15.5cm
+\textheight22cm
+\parindent0em
+%\markleft{\authors}
+%\markright{\shorttitle} 
+\pagenumbering{arabic}
+%%%%%%%%%%%%%%%%%%
 
 \addbibresource{references.bib}
 
@@ -49,7 +63,7 @@
 
 \date{May 2024}
 
-\title{Lightweight Crytolography Challenges and Approaches}
+\title{Lightweight Cryptography: Challenges and Approaches}
 \author{
   Aitaza, A. \\
   \texttt{aka2973@thi.de}
@@ -69,6 +83,7 @@
 
 \newpage
 \tableofcontents
+\listoffigures
 \newpage
 
 \section{Notation}
@@ -87,6 +102,7 @@
 \input{permutation.tex}
 \input{conclusion.tex}
 
+\newpage
 \printbibliography
 
 \end{document}
