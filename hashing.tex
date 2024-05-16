@@ -182,4 +182,4 @@ where $r$ is a rate, $a$ and $b$ are rounds of permutations (discussed in the ne
 S \leftarrow \text{IV}_{h,r,a,b} \parallel 0^{256}
 \]
 
-The configuration design of the hashes allow for 128-bit security for collision resistance and (second-) preimage resistance. This is derived from the fact that an attacker would need to guess the right capacity in order to get the full state that maps to the same input. Research found that a complexity for such an endeavor is $2^{c/2}$ \cite{bertoniIndifferentiabilitySpongeConstruction2008}, which is $2^128$ in case of the ASCON.
+The configuration design of the hashes allow for 128-bit security for collision resistance and (second-) preimage resistance. This is derived from the fact that an attacker would need to guess the right capacity in order to get the full state that maps to the same input. Researchers found that a complexity for such an endeavor is $2^{c/2}$ \cite{bertoniIndifferentiabilitySpongeConstruction2008}, which is $2^{128}$ in case of the ASCON.
