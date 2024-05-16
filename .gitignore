@@ -4,6 +4,15 @@
 # But not .tex files and .gitignore
 !*.tex
 !.gitignore
-#!references.bib
-#!media/
-#!*.png
+!*.png
+!*.jpg
+!ascon-*.pdf
+!*.bib
+!*.png
+!*.py
+!/images/
+!/images/*
+!/media/
+!/media/*
+!/figures/
+!/figures/*

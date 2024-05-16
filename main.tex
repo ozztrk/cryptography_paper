@@ -1,16 +1,120 @@
-\documentclass{article}
+\documentclass[a4paper]{article}
 \usepackage{graphicx} % Required for inserting images
+\usepackage[utf8]{inputenc}
+\usepackage{amsthm}
+\usepackage{csquotes}
+\usepackage{times} % Required for setting the font to Times New Roman
+\usepackage{setspace} % Required for setting custom line spacing
+\usepackage{url}
+\usepackage{amssymb}
+\usepackage{float, eurosym, amssymb, color}
+\usepackage{booktabs, cellspace}
+\usepackage{adjustbox}
+\usepackage{environ}
+\usepackage{tikz}
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{MnSymbol}
+\usepackage{parskip}
+\usepackage[
+    backend=biber, 
+    natbib=true,
+    style=numeric,
+    sorting=none
+]{biblatex} 
+\usepackage{hyperref}
+\usepackage[toc,page]{appendix}
+\usepackage{caption}
 
-\title{Lightweight Crytolography Challenges and Approaches}
-\author{}
-\date{April 2024}
+\addbibresource{references.bib}
 
+\newcommand{\mX}{\mathcal{X}}
+
+\usetikzlibrary{calc,cipher,sponge}
+\makeatletter
+\newsavebox{\measure@tikzpicture}
+\NewEnviron{scaletikzpicturetowidth}[1]{%
+  \def\tikz@width{#1}%
+  \def\tikzscale{1}\begin{lrbox}{\measure@tikzpicture}%
+  \BODY
+  \end{lrbox}%
+  \pgfmathparse{#1/\wd\measure@tikzpicture}%
+  \edef\tikzscale{\pgfmathresult}%
+  \BODY
+}
+\makeatother
+\setstretch{1.25}
+
+  
 \begin{document}
 
-\maketitle
-\section{Brainstorming} % All together at the beginning
-\section{Abstract} % All together at the end
-\section{Introduction} % All together at the end
+\newgeometry{margin=1cm}
+\begin{titlepage}
 
+  \title{ \Huge Lightweight Cryptography: Challenges and Approaches}
+  \author{
+    Aitaza, A. \\
+    \texttt{aka2973@thi.de}
+    \and
+    Öztürk O.\\
+    \texttt{ozo8678@thi.de}   
+    \and
+    Topouzakis, A. \\
+    \texttt{ant8751@thi.de}
+    \and
+    Maugueret, A. D.\\
+    \texttt{adm5462@thi.de}
+    }
+  \clearpage\maketitle
+  \thispagestyle{empty}
+  \pagenumbering{gobble}
+
+\end{titlepage}
+
+\restoregeometry
+
+\newpage
+\tableofcontents
+\newpage
+\listoffigures
+\newpage
+\pagenumbering{arabic} 
+
+%%%%%%%%%%%%% Page layout
+\topmargin-20mm
+\headheight10mm
+\headsep10mm
+\topskip0.1mm
+\hoffset-15mm
+\textwidth15.5cm
+\textheight22cm
+\parindent0em
+%\markleft{\authors}
+%\markright{\shorttitle} 
+\pagenumbering{arabic}
+%%%%%%%%%%%%%%%%%%
+
+\thispagestyle{empty}
+\section{Notation}
+
+\begin{figure}[H] 
+    \centering 
+    \includegraphics[width=1\textwidth]{figures/ascon-notation.png}
+    \caption{Ason's Notation Table \cite{DBLP:journals/joc/DobraunigEMS21}}
+    \label{fig:ascon-notation} 
+  \end{figure}
+
+\input{introduction.tex}
+\input{template_paper.tex}
+\input{auth_encrypt.tex}
+\input{hashing.tex}
+\input{permutation.tex}
+\input{conclusion.tex}
+
+\newpage
+\printbibliography
+\newpage
+
+\input{appendix.tex}
 
 \end{document}
