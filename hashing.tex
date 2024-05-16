@@ -27,7 +27,7 @@ An ideal hash function is said to be following a \textit{random oracle model}, i
 \subsection{Hash constructions}
 The first widely used idea to bring an infinite domain to a finite range of hash values is to use a \textit{compression function} $f$. Message $M$ is first padded and split into chunks of equal length $M=x_1||x_2||x_3||\ldots||x_n$. A compression function then takes in a first input chunk with the initial state $S$. The previous output of the function and the next chunk of a message are then fed to the same function again, sequentially, until the message is fully expended. The end return is a hash value. This approach is called a \textit{Merkle-Damgård transform}. Its working is depicted schematically on the Figure \ref{fig:merkle}. SHA-1 and SHA-2 standard hashing algorithms were designed as Merkle-Damgård hash functions, the SHA-1 being now deprecated for discovered security flaws. In 2017, \cite{firstcollision} found the first ever collision for SHA-1.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
         \tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
 
