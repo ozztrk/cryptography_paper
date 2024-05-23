@@ -115,7 +115,7 @@ The first widely used idea to bring an infinite domain to a finite range of hash
 \end{figure}
 In a Merkle-Damgård hash function, the \textit{internal state} is fully exposed, reflecting the hash of the input. If attacker knows the hash, he knows the final state of the compression function and can ``resume'' the calculation further with an appended message, producing a valid hash. This is known as a \textit{length extension attack} on hash \cite{knospeCourseCryptography2019}.
 
-A second architecture eliminates the length extension attack by never revealing the full internal state. This also conveniently allows for yielding an arbitrary length hash value. Such useful features are achieved by introducing a much larger internal state, allowing chunks of a message to be ``absorbed'' into the state, having a permutation function, and releasing a hash from the state also only chunk by chunk. This configuration is called a \textit{sponge construction} \cite{guido_b_d_michaël_p_2011}, and ASCON hashing adopts this particular mode of operation \cite{ascon_specification}.
+A second architecture eliminates the length extension attack by never revealing the full internal state. This also conveniently allows for generating hash values of arbitrary length. Such useful features are achieved by introducing a much larger internal state, allowing chunks of a message to be ``absorbed'' into the state, having a permutation function, and releasing a hash from the state also only chunk by chunk. This configuration is called a \textit{sponge construction} \cite{guido_b_d_michaël_p_2011}, and ASCON hashing adopts this particular mode of operation \cite{ascon_specification}.
 
 \begin{figure}[H]
     \centering
