@@ -46,7 +46,7 @@ In $p_C$, a round specific 1-byte constant is XORed to $x_2$. \cite{ascon_specif
   \label{fig:constant}
 \end{center}
 
-\subsubsection{Substition layer $p_C$}
+\subsubsection{Substition layer $p_S$}
 In $p_S$, a 5-bit S-box is applied to each byte of the state. It is the application of a 5-bit S-box 64 times in parallel vertically. \cite{ascon_specification, analysis_of_ascon}
 
 \begin{figure}[htbp]
@@ -56,7 +56,7 @@ In $p_S$, a 5-bit S-box is applied to each byte of the state. It is the applicat
   \label{fig:substition}
 \end{figure}
 
-\subsubsection{Diffusion layer $p_C$}
+\subsubsection{Diffusion layer $p_L$}
 in $p_L$, a linear diffusion matrix is applied to the state which only consists of XOR and right rotation of the 64-bit words $x_0, x_1, x_2, x_3, x_4$. \cite{ascon_specification, analysis_of_ascon}
 
 \begin{figure}[htbp]
